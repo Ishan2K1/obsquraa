@@ -53,7 +53,8 @@ include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 list(APPEND CORE_SOURCE_FILES )
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
-        src/person.cpp)
+        src/person.cpp
+        src/data_model.cpp)
 
 list(APPEND TEST_FILES )
 
