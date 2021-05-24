@@ -31,9 +31,9 @@ if(${CMAKE_VERSION} VERSION_LESS 3.14)
 endif()
 
 FetchContent_Declare(
-        catch2
+        Catch2
         GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG        v2.11.1
+        GIT_TAG        v2.13.1
 )
 
 # Adds Catch2 testing library
@@ -44,22 +44,35 @@ if(NOT catch2_POPULATED)
     target_include_directories(catch2 INTERFACE ${catch2_SOURCE_DIR}/single_include)
 endif()
 
+# JSON library : nlohmann. Header
+FetchContent_Declare(json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.7.3)
+
+FetchContent_GetProperties(json)
+
+# Adds JSON library
+if(NOT json_POPULATED)
+    FetchContent_Populate(json)
+    add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
 
 get_filename_component(CINDER_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../" ABSOLUTE)
 get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
-list(APPEND CORE_SOURCE_FILES )
+list(APPEND CORE_SOURCE_FILES src/data_model.cpp
+        src/person.cpp)
 
-list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
-        src/person.cpp
-        src/data_model.cpp)
+list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES})
 
 list(APPEND TEST_FILES )
 
-add_executable(main apps/main.cpp ${CORE_SOURCE_FILES})
-target_include_directories(main PRIVATE include)
+add_executable(matchmaker apps/main.cpp.cpp ${CORE_SOURCE_FILES})
+target_include_directories(quiz-model PRIVATE include)
+target_link_libraries(matchmaker PRIVATE nlohmann_json::nlohmann_json)
+
 ci_make_app(
         APP_NAME        quiz_app
         CINDER_PATH     ${CINDER_PATH}
@@ -68,7 +81,7 @@ ci_make_app(
 )
 
 ci_make_app(
-        APP_NAME        test_main
+        APP_NAME        quiz-test
         CINDER_PATH     ${CINDER_PATH}
         SOURCES         tests/test_main.cpp ${SOURCE_FILES} ${TEST_FILES}
         INCLUDES        include
@@ -76,5 +89,5 @@ ci_make_app(
 )
 
 if(MSVC)
-    set_property(TARGET test_main APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
+    set_property(TARGET quiz-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
 endif()
