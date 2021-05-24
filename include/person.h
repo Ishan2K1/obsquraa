@@ -12,8 +12,8 @@ namespace obsquraa {
     public:
         Person(std::size_t set_id, std::string set_name, std::string mail, std::string birth, std::string set_gender,
                std::string set_height, std::string set_sexuality, std::string agepref, std::string place, std::string location,
-               bool same_place, std::string set_job, std::string fake_name, std::string set_tv_shows, std::string set_food,
-               std::string destination, std::string preference, std::string others);
+               std::string set_job, std::string fake_name, std::string set_tv_shows, std::string set_food,
+               std::string destination, std::string preference, std::string others, std::string intrsts);
         std::size_t getID() const;
         std::string getName() const;
         std::string getEmail() const;
@@ -32,6 +32,7 @@ namespace obsquraa {
         std::string getDreamDestination() const;
         std::string getPreferences() const;
         std::string getExtra() const;
+        std::string getInterests() const;
     private:
         std::size_t id;
         std::string name;
@@ -44,6 +45,7 @@ namespace obsquraa {
         std::string city;
         std::string location_preference;
         bool same_city;
+        std::string interests;
         std::string job;
         std::string fake_name_preference;
         std::string tv_shows;

@@ -5,8 +5,8 @@ namespace obsquraa {
 
     Person::Person(std::size_t set_id, std::string set_name, std::string mail, std::string birth, std::string set_gender,
                    std::string set_height, std::string set_sexuality, std::string agepref, std::string place,
-                   std::string location, bool same_place, std::string set_job, std::string fake_name, std::string set_tv_shows,
-                   std::string set_food, std::string destination, std::string preference, std::string others) {
+                   std::string location, std::string set_job, std::string fake_name, std::string set_tv_shows,
+                   std::string set_food, std::string destination, std::string preference, std::string others, std::string intersts) {
         id = set_id;
         name = std::move(set_name);
         email = std::move(mail);
@@ -24,6 +24,7 @@ namespace obsquraa {
         dream_destination = std::move(destination);
         preferences = std::move(preference);
         extra = std::move(others);
+        interests = std::move(intersts);
     }
 
     std::size_t Person::getID() const {
@@ -96,5 +97,9 @@ namespace obsquraa {
 
     std::string Person::getExtra() const {
         return extra;
+    }
+
+    std::string Person::getInterests() const {
+        return interests;
     }
 }
